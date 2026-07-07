@@ -22,7 +22,7 @@ function inicializarCarrito() {
 /**
  * Agregar producto al carrito
  */
-function agregarAlCarrito($id, $nombre, $precio, $cantidad = 1, $stock = 999) {
+function agregarAlCarrito(int|string $id, string $nombre, float $precio, int $cantidad = 1, int $stock = 999) {
     inicializarCarrito();
     
     if (!is_numeric($id) || !is_numeric($precio) || !is_numeric($cantidad)) {
@@ -54,7 +54,7 @@ function agregarAlCarrito($id, $nombre, $precio, $cantidad = 1, $stock = 999) {
 /**
  * Actualizar cantidad de un producto
  */
-function actualizarCantidad($id, $cantidad) {
+function actualizarCantidad(int|string $id, int $cantidad) {
     inicializarCarrito();
     
     if (!isset($_SESSION['carrito'][$id])) {
@@ -74,7 +74,7 @@ function actualizarCantidad($id, $cantidad) {
 /**
  * Eliminar producto del carrito
  */
-function eliminarDelCarrito($id) {
+function eliminarDelCarrito(int|string $id) {
     inicializarCarrito();
     
     if (!isset($_SESSION['carrito'][$id])) {

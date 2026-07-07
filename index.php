@@ -19,7 +19,7 @@ $productos = [
         'categoria' => 'Tecnología', 
         'stock' => 10,
         'descripcion' => 'Laptop Dell con procesador Intel i5, 8GB RAM, 256GB SSD',
-        'imagen' => 'https://via.placeholder.com/300x200?text=Laptop+Dell'
+        'imagen' => 'https://www.blackmoreit.com/cdn/shop/files/20240920_155238.jpg?v=1726845700&width=1500'
     ],
     [
         'id' => 2, 
@@ -28,7 +28,7 @@ $productos = [
         'categoria' => 'Tecnología', 
         'stock' => 25,
         'descripcion' => 'Mouse inalámbrico con sensor óptico de alta precisión',
-        'imagen' => 'https://via.placeholder.com/300x200?text=Mouse'
+        'imagen' => 'https://siman.vtexassets.com/arquivos/ids/1884407/103144367.jpg?v=637725866328570000'
     ],
     [
         'id' => 3, 
@@ -37,7 +37,7 @@ $productos = [
         'categoria' => 'Tecnología', 
         'stock' => 15,
         'descripcion' => 'Teclado mecánico con iluminación RGB personalizable',
-        'imagen' => 'https://via.placeholder.com/300x200?text=Teclado'
+        'imagen' => 'https://guiasopensource.net/wp-content/uploads/teclado-mecanico-hardware-libre-1.webp'
     ],
     [
         'id' => 4, 
@@ -46,7 +46,7 @@ $productos = [
         'categoria' => 'Tecnología', 
         'stock' => 8,
         'descripcion' => 'Monitor Full HD 1920x1080, 75Hz, HDMI',
-        'imagen' => 'https://via.placeholder.com/300x200?text=Monitor'
+        'imagen' => 'https://dicom.mx/wp-content/uploads/2022/05/MNLG-30-2.jpg'
     ],
     [
         'id' => 5, 
@@ -55,7 +55,7 @@ $productos = [
         'categoria' => 'Oficina', 
         'stock' => 12,
         'descripcion' => 'Silla ergonómica con soporte lumbar ajustable',
-        'imagen' => 'https://via.placeholder.com/300x200?text=Silla'
+        'imagen' => 'https://m.media-amazon.com/images/I/81Lgluuy9WL._AC_.jpg'
     ],
     [
         'id' => 6, 
@@ -64,7 +64,7 @@ $productos = [
         'categoria' => 'Oficina', 
         'stock' => 5,
         'descripcion' => 'Escritorio de madera con cajones, 120x60cm',
-        'imagen' => 'https://via.placeholder.com/300x200?text=Escritorio'
+        'imagen' => 'https://tse4.mm.bing.net/th/id/OIP.uJJuvFVWl4yvTezDsRMM8wHaHa?r=0&cb=thfvnextfalcon4&rs=1&pid=ImgDetMain&o=7&rm=3'
     ]
 ];
 
