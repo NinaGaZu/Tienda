@@ -58,7 +58,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             
             // Aquí se procesaría el pago real con pasarela de pago
             // Por ahora, solo simulamos el proceso exitoso
-            
             // Vaciar carrito después de "comprar"
             vaciarCarrito();
             

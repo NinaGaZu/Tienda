@@ -5,15 +5,14 @@
  * Autor: Gianina Gaete
  */
 
-// Detectar si la conexión es HTTPS (soporta también proxies/balanceadores comunes)
+// Detectar si la conexión es HTTPS 
 $esHttps = (
     (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ||
     (!empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') ||
     ($_SERVER['SERVER_PORT'] ?? '') == 443
 );
 
-// Configuración de tiempo de vida de la sesión en el servidor (debe ser >= al lifetime de la cookie)
-// Evita que la sesión sea recolectada como basura antes de que expire la cookie del navegador
+// Aumentar el tiempo de vida de la sesión a 1 hora (3600 segundos)
 ini_set('session.gc_maxlifetime', 3600);
 
 // Configurar parámetros de cookie segura ANTES de iniciar sesión

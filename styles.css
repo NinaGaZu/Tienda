@@ -1507,3 +1507,354 @@ body {
         position: static;
     }
 }
+
+/* ========================================
+   CONFIRMACIÓN DE PEDIDO - ESTILO MEJORADO
+   ======================================== */
+
+/* Contenedor principal */
+.confirmation-container {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 0 20px;
+}
+
+/* Tarjeta de éxito */
+.confirmation-card {
+    background: white;
+    border-radius: 16px;
+    padding: 3rem 2rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    text-align: center;
+    margin-bottom: 2rem;
+    animation: fadeInUp 0.5s ease-out;
+}
+
+/* Icono de éxito */
+.success-icon-wrapper {
+    width: 100px;
+    height: 100px;
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+    box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
+    animation: scaleIn 0.5s ease-out;
+}
+
+.success-icon-wrapper .check-icon {
+    font-size: 3.5rem;
+    color: white;
+}
+
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.confirmation-card h1 {
+    font-size: 2rem;
+    color: var(--color-dark);
+    margin-bottom: 1rem;
+    font-weight: 700;
+}
+
+.confirmation-card .success-message {
+    color: var(--color-secondary);
+    font-size: 1.1rem;
+    margin-bottom: 0;
+}
+
+/* Información del pedido */
+.order-info-card {
+    background: white;
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    margin-bottom: 1.5rem;
+    animation: fadeInUp 0.5s ease-out 0.1s both;
+}
+
+.order-info-card h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-dark);
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid var(--color-light);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Grid de información */
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.info-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.info-label {
+    font-size: 0.85rem;
+    color: var(--color-secondary);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.info-value {
+    font-size: 1rem;
+    color: var(--color-dark);
+    font-weight: 600;
+}
+
+.info-value.order-number {
+    font-family: 'Courier New', monospace;
+    background: var(--color-light);
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    display: inline-block;
+    color: var(--color-primary);
+    font-size: 1.1rem;
+}
+
+.info-value.total-amount {
+    font-size: 1.75rem;
+    color: var(--color-primary);
+    font-weight: 700;
+}
+
+/* Sección de envío */
+.shipping-section {
+    background: var(--color-light);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-top: 1rem;
+}
+
+.shipping-section h3 {
+    font-size: 1.1rem;
+    color: var(--color-dark);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Productos comprados */
+.products-section {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 2px solid var(--color-light);
+}
+
+.products-section h3 {
+    font-size: 1.1rem;
+    color: var(--color-dark);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.order-product-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--color-light);
+}
+
+.order-product-item:last-child {
+    border-bottom: none;
+}
+
+.order-product-name {
+    font-weight: 500;
+    color: var(--color-dark);
+}
+
+.order-product-qty {
+    color: var(--color-secondary);
+    font-size: 0.9rem;
+}
+
+.order-product-price {
+    font-weight: 600;
+    color: var(--color-primary);
+}
+
+/* Totales del pedido */
+.order-totals {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 2px solid var(--color-light);
+}
+
+.order-total-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem 0;
+    font-size: 1rem;
+}
+
+.order-total-row .label {
+    color: var(--color-secondary);
+}
+
+.order-total-row .value {
+    font-weight: 600;
+    color: var(--color-dark);
+}
+
+.order-total-row.final {
+    font-size: 1.25rem;
+    font-weight: 700;
+    padding-top: 1rem;
+    border-top: 2px solid var(--color-light);
+    margin-top: 0.5rem;
+}
+
+.order-total-row.final .value {
+    color: var(--color-primary);
+    font-size: 1.5rem;
+}
+
+/* Mensaje de correo */
+.email-notice {
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-top: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: #1e40af;
+    font-size: 0.9rem;
+}
+
+.email-notice .mail-icon {
+    font-size: 1.5rem;
+}
+
+/* Botones de acción */
+.confirmation-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 2rem;
+    flex-wrap: wrap;
+}
+
+.btn-home {
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+    color: white;
+    padding: 1rem 2rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.3s;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+}
+
+.btn-home:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(37, 99, 235, 0.4);
+    color: white;
+}
+
+.btn-print {
+    background: var(--color-secondary);
+    color: white;
+    padding: 1rem 2rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.3s;
+}
+
+.btn-print:hover {
+    background: #475569;
+    transform: translateY(-2px);
+    color: white;
+}
+
+/* Animación general */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive */
+@media (max-width: 767px) {
+    .confirmation-card {
+        padding: 2rem 1.5rem;
+    }
+    
+    .confirmation-card h1 {
+        font-size: 1.5rem;
+    }
+    
+    .info-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .confirmation-actions {
+        flex-direction: column;
+    }
+    
+    .btn-home,
+    .btn-print {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* Estilos para impresión */
+@media print {
+    .confirmation-actions,
+    .main-header,
+    .main-footer {
+        display: none !important;
+    }
+    
+    .confirmation-card,
+    .order-info-card {
+        box-shadow: none;
+        border: 1px solid #ddd;
+    }
+}

@@ -19,113 +19,116 @@ $pedido = $_SESSION['pedido'];
 ?>
 
 <div class="container">
-    <div class="confirmacion-container">
-        <div class="confirmacion-header">
-            <div class="success-icon">✅</div>
-            <h1>¡Pedido Confirmado!</h1>
-            <p class="success-message">Gracias por tu compra. Tu pedido ha sido procesado exitosamente.</p>
+    <div class="confirmation-container">
+    <!-- Tarjeta de éxito -->
+    <div class="confirmation-card">
+        <div class="success-icon-wrapper">
+            <span class="check-icon">✓</span>
         </div>
+        <h1>¡Pedido Confirmado!</h1>
+        <p class="success-message">
+            Gracias por tu compra. Tu pedido ha sido procesado exitosamente.
+        </p>
+    </div>
+
+    <!-- Información del pedido -->
+    <div class="order-info-card">
+        <h2>📦 Información del Pedido</h2>
         
-        <div class="confirmacion-info">
-            <div class="info-section">
-                <h2>Información del Pedido</h2>
-                <div class="info-grid">
-                    <div class="info-item">
-                        <strong>Número de Pedido:</strong>
-                        <span><?php echo htmlspecialchars($pedido['id_pedido']); ?></span>
-                    </div>
-                    <div class="info-item">
-                        <strong>Fecha:</strong>
-                        <span><?php echo date('d/m/Y H:i', strtotime($pedido['fecha'])); ?></span>
-                    </div>
-                    <div class="info-item">
-                        <strong>Total Pagado:</strong>
-                        <span class="total-amount">$<?php echo number_format($pedido['total'], 0, ',', '.'); ?></span>
-                    </div>
-                    <div class="info-item">
-                        <strong>Método de Pago:</strong>
-                        <span><?php echo htmlspecialchars(ucfirst(str_replace('_', ' ', $pedido['metodo_pago']))); ?></span>
-                    </div>
-                </div>
+        <div class="info-grid">
+            <div class="info-item">
+                <span class="info-label">Número de Pedido</span>
+                <span class="info-value order-number">PED-20260707-609E4F</span>
             </div>
             
-            <div class="info-section">
-                <h2>Datos de Envío</h2>
-                <div class="info-grid">
-                    <div class="info-item full-width">
-                        <strong>Nombre:</strong>
-                        <span><?php echo htmlspecialchars($pedido['nombre']); ?></span>
-                    </div>
-                    <div class="info-item full-width">
-                        <strong>Email:</strong>
-                        <span><?php echo htmlspecialchars($pedido['email']); ?></span>
-                    </div>
-                    <div class="info-item full-width">
-                        <strong>Teléfono:</strong>
-                        <span><?php echo htmlspecialchars($pedido['telefono']); ?></span>
-                    </div>
-                    <div class="info-item full-width">
-                        <strong>Dirección:</strong>
-                        <span><?php echo htmlspecialchars($pedido['direccion']); ?></span>
-                    </div>
-                    <div class="info-item full-width">
-                        <strong>Ciudad:</strong>
-                        <span><?php echo htmlspecialchars($pedido['ciudad']); ?></span>
-                    </div>
-                </div>
+            <div class="info-item">
+                <span class="info-label">Fecha</span>
+                <span class="info-value">07/07/2026 05:21</span>
             </div>
             
-            <div class="info-section">
-                <h2>Productos Comprados</h2>
-                <div class="productos-pedido">
-                    <?php foreach ($pedido['productos'] as $producto): ?>
-                        <div class="producto-item">
-                            <span class="producto-nombre"><?php echo htmlspecialchars($producto['nombre']); ?></span>
-                            <span class="producto-cantidad">x<?php echo $producto['cantidad']; ?></span>
-                            <span class="producto-precio">
-                                $<?php echo number_format($producto['precio'] * $producto['cantidad'], 0, ',', '.'); ?>
-                            </span>
-                        </div>
-                    <?php endforeach; ?>
+            <div class="info-item">
+                <span class="info-label">Total Pagado</span>
+                <span class="info-value total-amount">$7.990</span>
+            </div>
+            
+            <div class="info-item">
+                <span class="info-label">Método de Pago</span>
+                <span class="info-value">💳 Tarjeta</span>
+            </div>
+        </div>
+
+        <!-- Datos de envío -->
+        <div class="shipping-section">
+            <h3>📍 Datos de Envío</h3>
+            <div class="info-grid">
+                <div class="info-item">
+                    <span class="info-label">Nombre</span>
+                    <span class="info-value">Juan Perez</span>
                 </div>
                 
-                <div class="resumen-final">
-                    <div class="resumen-line">
-                        <span>Subtotal:</span>
-                        <span>$<?php echo number_format($pedido['subtotal'], 0, ',', '.'); ?></span>
-                    </div>
-                    <?php if ($pedido['descuento'] > 0): ?>
-                        <div class="resumen-line descuento">
-                            <span>Descuento:</span>
-                            <span>-$<?php echo number_format($pedido['descuento'], 0, ',', '.'); ?></span>
-                        </div>
-                    <?php endif; ?>
-                    <div class="resumen-line">
-                        <span>Envío:</span>
-                        <span>$<?php echo number_format($pedido['envio'], 0, ',', '.'); ?></span>
-                    </div>
-                    <div class="resumen-line total">
-                        <strong>TOTAL:</strong>
-                        <strong>$<?php echo number_format($pedido['total'], 0, ',', '.'); ?></strong>
-                    </div>
+                <div class="info-item">
+                    <span class="info-label">Email</span>
+                    <span class="info-value">nombre@gmail.com</span>
+                </div>
+                
+                <div class="info-item">
+                    <span class="info-label">Teléfono</span>
+                    <span class="info-value">+56912345678</span>
+                </div>
+                
+                <div class="info-item">
+                    <span class="info-label">Dirección</span>
+                    <span class="info-value">Gomez 369, Los Angeles</span>
                 </div>
             </div>
         </div>
-        
-        <div class="confirmacion-actions">
-            <a href="index.php" class="btn btn-primary">
-                🏠 Volver al Inicio
-            </a>
-            <button onclick="window.print()" class="btn btn-secondary">
-                🖨️ Imprimir Confirmación
-            </button>
+
+        <!-- Productos comprados -->
+        <div class="products-section">
+            <h3>️ Productos Comprados</h3>
+            
+            <div class="order-product-item">
+                <div>
+                    <span class="order-product-name">Mouse Inalámbrico Logitech</span>
+                    <span class="order-product-qty">x1</span>
+                </div>
+                <span class="order-product-price">$4.990</span>
+            </div>
+            
+            <!-- Totales -->
+            <div class="order-totals">
+                <div class="order-total-row">
+                    <span class="label">Subtotal:</span>
+                    <span class="value">$4.990</span>
+                </div>
+                <div class="order-total-row">
+                    <span class="label">Envío:</span>
+                    <span class="value">$3.000</span>
+                </div>
+                <div class="order-total-row final">
+                    <span class="label">TOTAL:</span>
+                    <span class="value">$7.990</span>
+                </div>
+            </div>
         </div>
-        
-        <div class="confirmacion-note">
-            <p>📧 Se ha enviado un correo de confirmación a <strong><?php echo htmlspecialchars($pedido['email']); ?></strong></p>
-            <p>Guarda tu número de pedido: <strong><?php echo htmlspecialchars($pedido['id_pedido']); ?></strong></p>
+
+        <!-- Aviso de correo -->
+        <div class="email-notice">
+            <span class="mail-icon">📧</span>
+            <span>Se ha enviado un correo de confirmación a <strong>nombre@gmail.com</strong></span>
         </div>
     </div>
+
+    <!-- Botones de acción -->
+    <div class="confirmation-actions">
+        <a href="index.php" class="btn-home">
+            🏠 Volver al Inicio
+        </a>
+        <button onclick="window.print()" class="btn-print">
+            🖨️ Imprimir Confirmación
+        </button>
+    </div>
+</div>
 </div>
 
 <?php 
