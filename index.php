@@ -5,11 +5,12 @@
  * Autor: Gianina Gaete
  */
 
+require_once 'config/sesion.php';
+require_once 'includes/carrito_session.php';
 $pageTitle = "Inicio";
 require_once 'includes/header.php';
-require_once 'includes/carrito_session.php';
 
-// Lista de productos (en producción, esto viene de una base de datos)
+// Lista de productos 
 $productos = [
     [
         'id' => 1, 
@@ -69,12 +70,14 @@ $productos = [
 
 // Procesar agregar al carrito
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['agregar_carrito'])) {
+    //Validar token CSRF (Seguridad)
     if (!validateCsrfToken($_POST['csrf_token'] ?? '')) {
         setNotification("Error de seguridad. Intente nuevamente.", "error");
     } else {
         $id = (int)$_POST['producto_id'];
         $producto = null;
         
+        //Buscar el producto en el array
         foreach ($productos as $p) {
             if ($p['id'] === $id) {
                 $producto = $p;
@@ -101,9 +104,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['agregar_carrito'])) {
         }
     }
     
+    // Redirigir para evitar reenvío del formulario
     header("Location: index.php");
     exit;
 }
+// Obtener notificación para mostrar
+$notification = getNotification();
 ?>
 
 <section class="hero">
@@ -147,6 +153,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['agregar_carrito'])) {
                         <?php else: ?>
                             <button disabled class="btn btn-disabled">Agotado</button>
                         <?php endif; ?>
+
+                        <a href="reviews.php?id=<?php echo $producto['id']; ?>" class="btn btn-reviews">
+                            ⭐ Ver Reseñas
+                        </a>
                     </div>
                 </div>
             <?php endforeach; ?>

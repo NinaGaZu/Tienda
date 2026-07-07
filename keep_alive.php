@@ -2,7 +2,7 @@
 /**
  * Script para mantener la sesión activa (AJAX keep-alive)
  * IACC - Programación Web II - Semana 5
- * Autor: [Tu Nombre]
+ * Autor: Gianina Gaete
  */
 
 require_once 'config/sesion.php';

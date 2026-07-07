@@ -33,6 +33,7 @@ $cantidadCarrito = obtenerCantidadItems() ?? 0;
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo $pageTitle ?? 'Tienda'; ?> - Tienda Online</title>
     <link rel="stylesheet" href="styles.css">
+    <script src="js/keep_alive.js" defer></script>
 </head>
 <body>
     <header class="main-header">

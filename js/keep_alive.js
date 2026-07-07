@@ -1,7 +1,7 @@
 /**
  * Script para mantener la sesión activa
  * IACC - Programación Web II - Semana 5
- * Autor: [Tu Nombre]
+ * Autor: Gianina Gaete
  */
 
 /**
@@ -26,15 +26,13 @@ function keepSessionAlive() {
                 return response.json();
             })
             .then(data => {
-                if (data.success) {
+                if (data && data.success) {
                     console.log('[' + new Date().toLocaleTimeString() + '] Sesión renovada correctamente');
-                } else {
-                    console.warn('Error al renovar sesión:', data);
                 }
             })
             .catch(error => {
-                console.error('Error en keep-alive:', error);
-                // No detener el intervalo en caso de error
+                // Silenciar errores en producción
+                // console.error('Error en keep-alive:', error);
             });
     }, 900000); // 15 minutos
     
