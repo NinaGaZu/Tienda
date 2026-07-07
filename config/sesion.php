@@ -53,6 +53,11 @@ if (!isset($_SESSION['CREATED'])) {
     $_SESSION['CREATED'] = time();
 }
 
+// Regenerar al iniciar sesión o durante el checkout
+if (isset($_POST['login']) || isset($_POST['finalizar_compra'])) {
+    session_regenerate_id(true);
+}
+
 /**
  * Función para obtener token CSRF
  * @return string

@@ -161,4 +161,29 @@ function calcularTotalFinal($costoEnvio = 3000) {
     $descuento = calcularDescuento();
     return $total + $costoEnvio - $descuento;
 }
+
+/**
+ * Obtener información completa del carrito para checkout
+ * @param float $costoEnvio Costo de envío
+ * @return array Información completa del carrito
+ */
+function obtenerInfoCompletaCarrito($costoEnvio = 3000) {
+    inicializarCarrito();
+    
+    $carrito = obtenerCarrito();
+    $subtotal = obtenerTotalCarrito();
+    $descuento = calcularDescuento();
+    $totalFinal = calcularTotalFinal($costoEnvio);
+    $cantidadItems = obtenerCantidadItems();
+    
+    return [
+        'productos' => $carrito,
+        'subtotal' => $subtotal,
+        'descuento' => $descuento,
+        'envio' => $costoEnvio,
+        'total' => $totalFinal,
+        'cantidad_items' => $cantidadItems,
+        'vacio' => carritoVacio()
+    ];
+}
 ?>

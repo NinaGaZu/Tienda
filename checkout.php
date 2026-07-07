@@ -71,162 +71,150 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 ?>
 
 <div class="container">
-    <h1 class="page-title">💳 Finalizar Compra</h1>
+    <h1 class="checkout-title">
+        <span class="title-icon">💳</span>
+        Finalizar Compra
+    </h1>
     
-    <?php if (isset($error)): ?>
-        <div class="notification notification-error">
-            <?php echo htmlspecialchars($error); ?>
-        </div>
-    <?php endif; ?>
-    
-    <div class="checkout-container">
-        <section class="checkout-form-section">
+    <div class="checkout-wrapper">
+        <!-- Formulario -->
+        <div class="checkout-form-section">
             <h2>Información de Envío y Pago</h2>
             
-            <form method="POST" action="checkout.php" class="checkout-form">
+            <form method="POST" action="checkout.php">
                 <input type="hidden" name="csrf_token" value="<?php echo getCsrfToken(); ?>">
                 
-                <fieldset>
-                    <legend>Datos Personales</legend>
+                <!-- Datos Personales -->
+                <div class="form-section">
+                    <h3 class="form-section-title"> Datos Personales</h3>
                     
                     <div class="form-group">
-                        <label for="nombre">Nombre Completo: *</label>
-                        <input type="text" id="nombre" name="nombre" 
-                               value="<?php echo $_POST['nombre'] ?? ''; ?>" 
-                               required 
-                               pattern="[A-Za-zÁáÉéÍíÓóÚúÑñ\s]{3,50}"
-                               placeholder="Ej: Juan Pérez">
+                        <label for="nombre">Nombre Completo: <span class="required">*</span></label>
+                        <input type="text" id="nombre" name="nombre" required placeholder="Ej: Juan Pérez">
                     </div>
                     
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="email">Correo Electrónico: *</label>
-                            <input type="email" id="email" name="email" 
-                                   value="<?php echo $_POST['email'] ?? ''; ?>" 
-                                   required 
-                                   placeholder="ejemplo@correo.com">
+                            <label for="email">Correo Electrónico: <span class="required">*</span></label>
+                            <input type="email" id="email" name="email" required placeholder="ejemplo@correo.com">
                         </div>
                         
                         <div class="form-group">
-                            <label for="telefono">Teléfono: *</label>
-                            <input type="tel" id="telefono" name="telefono" 
-                                   value="<?php echo $_POST['telefono'] ?? ''; ?>" 
-                                   required 
-                                   pattern="[0-9+\s]{8,15}"
-                                   placeholder="+56 9 1234 5678">
+                            <label for="telefono">Teléfono: <span class="required">*</span></label>
+                            <input type="tel" id="telefono" name="telefono" required placeholder="+56 9 1234 5678">
                         </div>
                     </div>
-                </fieldset>
+                </div>
                 
-                <fieldset>
-                    <legend>Dirección de Envío</legend>
+                <!-- Dirección de Envío -->
+                <div class="form-section">
+                    <h3 class="form-section-title">📍 Dirección de Envío</h3>
                     
                     <div class="form-group">
-                        <label for="direccion">Dirección: *</label>
-                        <textarea id="direccion" name="direccion" rows="3" 
-                                  required 
-                                  placeholder="Calle, número, departamento, etc."><?php echo $_POST['direccion'] ?? ''; ?></textarea>
+                        <label for="direccion">Dirección: <span class="required">*</span></label>
+                        <textarea id="direccion" name="direccion" required placeholder="Calle, número, departamento, etc."></textarea>
                     </div>
                     
-                    <div class="form-group">
-                        <label for="ciudad">Ciudad: *</label>
-                        <input type="text" id="ciudad" name="ciudad" 
-                               value="<?php echo $_POST['ciudad'] ?? ''; ?>" 
-                               required 
-                               placeholder="Ej: Santiago">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="ciudad">Ciudad: <span class="required">*</span></label>
+                            <input type="text" id="ciudad" name="ciudad" required placeholder="Ej: Santiago">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="metodo_pago">Método de Pago: <span class="required">*</span></label>
+                            <select id="metodo_pago" name="metodo_pago" required>
+                                <option value="">-- Seleccione --</option>
+                                <option value="tarjeta">Tarjeta de Crédito/Débito</option>
+                                <option value="transferencia">Transferencia Bancaria</option>
+                                <option value="paypal">PayPal</option>
+                            </select>
+                        </div>
                     </div>
-                </fieldset>
+                </div>
                 
-                <fieldset>
-                    <legend>Método de Pago</legend>
-                    
-                    <div class="form-group">
-                        <label for="metodo_pago">Seleccione método: *</label>
-                        <select id="metodo_pago" name="metodo_pago" required>
-                            <option value="">-- Seleccione --</option>
-                            <option value="tarjeta_credito" <?php echo (($_POST['metodo_pago'] ?? '') === 'tarjeta_credito') ? 'selected' : ''; ?>>
-                                💳 Tarjeta de Crédito
-                            </option>
-                            <option value="tarjeta_debito" <?php echo (($_POST['metodo_pago'] ?? '') === 'tarjeta_debito') ? 'selected' : ''; ?>>
-                                💳 Tarjeta de Débito
-                            </option>
-                            <option value="transferencia" <?php echo (($_POST['metodo_pago'] ?? '') === 'transferencia') ? 'selected' : ''; ?>>
-                                🏦 Transferencia Bancaria
-                            </option>
-                            <option value="efectivo" <?php echo (($_POST['metodo_pago'] ?? '') === 'efectivo') ? 'selected' : ''; ?>>
-                                💵 Pago Contra Entrega
-                            </option>
-                        </select>
-                    </div>
-                </fieldset>
-                
-                <div class="form-group checkbox-group">
-                    <label>
-                        <input type="checkbox" required>
-                        Acepto los <a href="#" target="_blank">términos y condiciones</a> y la 
-                        <a href="#" target="_blank">política de privacidad</a> *
+                <!-- Términos -->
+                <div class="terms-group">
+                    <input type="checkbox" id="terminos" name="terminos" required>
+                    <label for="terminos">
+                        Acepto los <a href="terminos.php">términos y condiciones</a> y la <a href="privacidad.php">política de privacidad</a> *
                     </label>
                 </div>
                 
-                <div class="form-actions">
-                    <button type="submit" class="btn btn-primary btn-large btn-block">
-                        🔒 Pagar $<?php echo number_format($infoCarrito['total'], 0, ',', '.'); ?>
-                    </button>
-                    
-                    <a href="carrito.php" class="btn btn-secondary btn-block">
-                        ← Volver al carrito
-                    </a>
-                </div>
+                <!-- Botones -->
+                <button type="submit" class="btn-pay">
+                    🔒 Pagar $<?php echo number_format($infoCarrito['total'], 0, ',', '.'); ?>
+                </button>
+                
+                <a href="carrito.php" class="btn-back">← Volver al carrito</a>
             </form>
-        </section>
+        </div>
         
-        <aside class="checkout-resumen">
-            <h2>Resumen del Pedido</h2>
-            
-            <div class="resumen-pedido">
-                <?php foreach ($infoCarrito['productos'] as $producto): ?>
-                    <div class="resumen-producto-item">
-                        <div class="producto-info">
-                            <span class="producto-nombre"><?php echo $producto['nombre']; ?></span>
-                            <span class="producto-cantidad">x<?php echo $producto['cantidad']; ?></span>
+        <!-- Resumen del Pedido -->
+        <aside class="checkout-summary">
+            <div class="summary-card">
+                <h2 class="summary-title">📋 Resumen del Pedido</h2>
+                
+                <!-- Lista de productos -->
+                <div class="summary-products-list">
+                    <?php foreach ($infoCarrito['productos'] as $producto): ?>
+                        <div class="summary-product-item">
+                            <div class="summary-product-info">
+                                <div class="summary-product-name">
+                                    <?php echo htmlspecialchars($producto['nombre']); ?>
+                                </div>
+                                <div class="summary-product-qty">
+                                    x<?php echo $producto['cantidad']; ?>
+                                </div>
+                            </div>
+                            <div class="summary-product-price">
+                                $<?php echo number_format($producto['precio'] * $producto['cantidad'], 0, ',', '.'); ?>
+                            </div>
                         </div>
-                        <span class="producto-precio">
-                            $<?php echo number_format($producto['precio'] * $producto['cantidad'], 0, ',', '.'); ?>
-                        </span>
+                    <?php endforeach; ?>
+                </div>
+                
+                <!-- Totales -->
+                <div class="summary-details">
+                    <div class="summary-row">
+                        <span>Subtotal:</span>
+                        <span class="summary-value">$<?php echo number_format($infoCarrito['subtotal'], 0, ',', '.'); ?></span>
                     </div>
-                <?php endforeach; ?>
-            </div>
-            
-            <div class="resumen-totales">
-                <div class="total-row">
-                    <span>Subtotal:</span>
-                    <span>$<?php echo number_format($infoCarrito['subtotal'], 0, ',', '.'); ?></span>
-                </div>
-                
-                <?php if ($infoCarrito['descuento'] > 0): ?>
-                    <div class="total-row descuento">
-                        <span>Descuento (10%):</span>
-                        <span>-$<?php echo number_format($infoCarrito['descuento'], 0, ',', '.'); ?></span>
+                    
+                    <?php if ($infoCarrito['descuento'] > 0): ?>
+                        <div class="summary-row discount">
+                            <span>Descuento (10%):</span>
+                            <span class="summary-value text-success">-$<?php echo number_format($infoCarrito['descuento'], 0, ',', '.'); ?></span>
+                        </div>
+                    <?php endif; ?>
+                    
+                    <div class="summary-row">
+                        <span>Envío:</span>
+                        <span class="summary-value">$<?php echo number_format($infoCarrito['envio'], 0, ',', '.'); ?></span>
                     </div>
-                <?php endif; ?>
-                
-                <div class="total-row">
-                    <span>Envío:</span>
-                    <span>$<?php echo number_format($infoCarrito['envio'], 0, ',', '.'); ?></span>
+                    
+                    <div class="summary-divider"></div>
+                    
+                    <div class="summary-row total">
+                        <span>TOTAL:</span>
+                        <span class="total-amount">$<?php echo number_format($infoCarrito['total'], 0, ',', '.'); ?></span>
+                    </div>
+                    
+                    <?php if ($infoCarrito['descuento'] > 0): ?>
+                        <div class="savings-badge">
+                            ✨ Ahorraste $<?php echo number_format($infoCarrito['descuento'], 0, ',', '.'); ?>
+                        </div>
+                    <?php endif; ?>
                 </div>
                 
-                <div class="total-row total-final">
-                    <strong>TOTAL:</strong>
-                    <strong>$<?php echo number_format($infoCarrito['total'], 0, ',', '.'); ?></strong>
+                <!-- Badge de seguridad -->
+                <div class="secure-checkout-badge">
+                    <div class="lock-icon">🔒</div>
+                    <p>Pago 100% seguro</p>
+                    <small>Sus datos están protegidos con encriptación SSL</small>
                 </div>
-            </div>
-            
-            <div class="checkout-security">
-                <p>🔒 Pago 100% seguro</p>
-                <p>Sus datos están protegidos con encriptación SSL</p>
             </div>
         </aside>
     </div>
 </div>
-
 <?php require_once 'includes/footer.php'; ?>
