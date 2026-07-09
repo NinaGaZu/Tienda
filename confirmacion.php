@@ -1,10 +1,11 @@
 <?php
 /**
  * Página de confirmación de pedido
- * IACC - Programación Web II - Semana 5
- * Autor: [Tu Nombre]
+ * IACC - Programación Web II - Semana 6
+ * Autor: Gianina Gaete
  */
 
+require_once 'config/sesion.php';
 $pageTitle = "Pedido Confirmado";
 require_once 'includes/header.php';
 
@@ -16,6 +17,17 @@ if (!isset($_SESSION['pedido'])) {
 }
 
 $pedido = $_SESSION['pedido'];
+
+// Formatear fecha
+$fecha_formateada = date('d/m/Y H:i', strtotime($pedido['fecha']));
+
+// Mapear método de pago
+$metodos_pago = [
+    'tarjeta' => '💳 Tarjeta de Crédito/Débito',
+    'transferencia' => '🏦 Transferencia Bancaria',
+    'paypal' => '🅿️ PayPal'
+];
+$metodo_pago_texto = $metodos_pago[$pedido['metodo_pago']] ?? $pedido['metodo_pago'];
 ?>
 
 <div class="container">
@@ -38,22 +50,22 @@ $pedido = $_SESSION['pedido'];
         <div class="info-grid">
             <div class="info-item">
                 <span class="info-label">Número de Pedido</span>
-                <span class="info-value order-number">PED-20260707-609E4F</span>
+                <span class="info-value order-number"><?php echo htmlspecialchars($pedido['id_pedido']); ?></span>
             </div>
             
             <div class="info-item">
                 <span class="info-label">Fecha</span>
-                <span class="info-value">07/07/2026 05:21</span>
+                <span class="info-value"><?php echo htmlspecialchars($fecha_formateada); ?></span>
             </div>
             
             <div class="info-item">
                 <span class="info-label">Total Pagado</span>
-                <span class="info-value total-amount">$7.990</span>
+                <span class="info-value total-amount">$<?php echo number_format($pedido['total'], 0, ',', '.'); ?></span>
             </div>
             
             <div class="info-item">
                 <span class="info-label">Método de Pago</span>
-                <span class="info-value">💳 Tarjeta</span>
+                <span class="info-value"><?php echo htmlspecialchars($metodo_pago_texto); ?></span>
             </div>
         </div>
 
@@ -63,51 +75,54 @@ $pedido = $_SESSION['pedido'];
             <div class="info-grid">
                 <div class="info-item">
                     <span class="info-label">Nombre</span>
-                    <span class="info-value">Juan Perez</span>
+                    <span class="info-value"><?php echo htmlspecialchars($pedido['nombre']); ?></span>
                 </div>
                 
                 <div class="info-item">
                     <span class="info-label">Email</span>
-                    <span class="info-value">nombre@gmail.com</span>
+                    <span class="info-value"><?php echo htmlspecialchars($pedido['email']); ?></span>
                 </div>
                 
                 <div class="info-item">
                     <span class="info-label">Teléfono</span>
-                    <span class="info-value">+56912345678</span>
+                    <span class="info-value"><?php echo htmlspecialchars($pedido['telefono']); ?></span>
                 </div>
                 
                 <div class="info-item">
                     <span class="info-label">Dirección</span>
-                    <span class="info-value">Gomez 369, Los Angeles</span>
+                    <span class="info-value"><?php echo htmlspecialchars($pedido['direccion']); ?></span>
                 </div>
             </div>
         </div>
 
         <!-- Productos comprados -->
         <div class="products-section">
-            <h3>️ Productos Comprados</h3>
-            
-            <div class="order-product-item">
-                <div>
-                    <span class="order-product-name">Mouse Inalámbrico Logitech</span>
-                    <span class="order-product-qty">x1</span>
+            <h3>Productos Comprados</h3>
+
+            <?php foreach ($pedido['productos'] as $producto): ?>
+                <div class="order-product-item">
+                    <div>
+                        <span class="order-product-name">
+                            <?php echo htmlspecialchars($producto['nombre']); ?></span>
+                        <span class="order-product-qty">x<?php echo $producto['cantidad']; ?></span>
+                    </div>
+                    <span class="order-product-price">$<?php echo number_format($producto['precio'], 0, ',', '.'); ?></span>
                 </div>
-                <span class="order-product-price">$4.990</span>
-            </div>
+            <?php endforeach; ?>
             
             <!-- Totales -->
             <div class="order-totals">
                 <div class="order-total-row">
                     <span class="label">Subtotal:</span>
-                    <span class="value">$4.990</span>
+                    <span class="value">$<?php echo number_format($pedido['subtotal'], 0, ',', '.'); ?></span>
                 </div>
                 <div class="order-total-row">
                     <span class="label">Envío:</span>
-                    <span class="value">$3.000</span>
+                    <span class="value">$<?php echo number_format($pedido['costo_envio'], 0, ',', '.'); ?></span>
                 </div>
                 <div class="order-total-row final">
                     <span class="label">TOTAL:</span>
-                    <span class="value">$7.990</span>
+                    <span class="value">$<?php echo number_format($pedido['total'], 0, ',', '.'); ?></span>
                 </div>
             </div>
         </div>
@@ -115,7 +130,7 @@ $pedido = $_SESSION['pedido'];
         <!-- Aviso de correo -->
         <div class="email-notice">
             <span class="mail-icon">📧</span>
-            <span>Se ha enviado un correo de confirmación a <strong>nombre@gmail.com</strong></span>
+            <span>Se ha enviado un correo de confirmación a <strong><?php echo htmlspecialchars($pedido['email']); ?></strong></span>
         </div>
     </div>
 

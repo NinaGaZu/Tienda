@@ -92,7 +92,7 @@ $totalFinal = calcularTotalFinal($costoEnvio);
                         <?php foreach (obtenerCarrito() as $producto): ?>
                             <div class="cart-product-card">
                                 <div class="product-image-container">
-                                    <img src="https://guiasopensource.net/wp-content/uploads/teclado-mecanico-hardware-libre-1.webp" 
+                                    <img src="<?php echo htmlspecialchars($producto['imagen'] ?? ''); ?>" 
                                          alt="<?php echo htmlspecialchars($producto['nombre']); ?>"
                                          class="product-image">
                                 </div>

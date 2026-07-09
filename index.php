@@ -17,10 +17,32 @@ $db = new Database();
 $conn = $db->getConnection();
 
 //Consulta COMPLETA con todas las columnas necesarias
-$sql = "SELECT id_producto AS id, nombre, precio, stock, descripcion, imagen, categoria 
-        FROM PRODUCTO";
+$sql = "SELECT 
+            id_producto AS id, 
+            nombre, 
+            precio, 
+            stock, 
+            descripcion, 
+            imagen, 
+            categoria 
+        FROM PRODUCTO
+        WHERE stock > 0"; // Solo productos con stock disponible
+
 $resultado = $conn->query($sql);
+
+if (!$resultado) {
+    die("Error en consulta: " . $conn->error);
+}
+
 $productos = $resultado->fetch_all(MYSQLI_ASSOC);
+
+// Normalizar tipos numéricos una sola vez
+foreach ($productos as &$p) {
+    $p['id'] = (int)$p['id'];
+    $p['stock'] = (int)$p['stock'];
+    $p['precio'] = (float)$p['precio'];
+}
+unset($p);
 
 // Procesar agregar al carrito
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['agregar_carrito'])) {
@@ -39,13 +61,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['agregar_carrito'])) {
             }
         }
         
-        if ($producto && $producto['stock'] > 0) {
+        if ($producto && isset($producto['stock']) && $producto['stock'] > 0) {
             $resultado = agregarAlCarrito(
                 $producto['id'], 
                 $producto['nombre'], 
                 $producto['precio'], 
                 1, 
-                $producto['stock']
+                $producto['stock'],
+                $producto['imagen']
             );
             
             if ($resultado['success']) {
@@ -54,7 +77,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['agregar_carrito'])) {
                 setNotification($resultado['message'], "error");
             }
         } else {
-            setNotification("Producto no disponible", "error");
+            setNotification("Producto no disponible o sin stock", "error");
         }
     }
     
@@ -82,7 +105,7 @@ $notification = getNotification();
             <?php foreach ($productos as $producto): ?>
                 <div class="product-card">
                     <div class="product-image">
-                        <img src="<?php echo htmlspecialchars($producto['imagen']); ?>" 
+                        <img src="<?php echo htmlspecialchars($producto['imagen'] ?? ''); ?>" 
                              alt="<?php echo htmlspecialchars($producto['nombre']); ?>">
                     </div>
                     <div class="product-info">

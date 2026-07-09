@@ -21,30 +21,49 @@ function inicializarCarrito() {
 
 /**
  * Agregar producto al carrito
+ * @param int|string $id Identificador del producto
+ * @param string $nombre Nombre del producto
+ * @param float $precio Precio del producto
+ * @param int $cantidad Cantidad a agregar
+ * @param int $stock Stock disponible en base de datos
+ * @return array Resultado de la operación
  */
-function agregarAlCarrito(int|string $id, string $nombre, float $precio, int $cantidad = 1, int $stock = 999) {
+function agregarAlCarrito(int|string $id, string $nombre, float $precio, int $cantidad = 1, int $stock = 999, string $imagen = '') {
     inicializarCarrito();
     
+    // Validar que los datos sean numéricos
     if (!is_numeric($id) || !is_numeric($precio) || !is_numeric($cantidad)) {
-        return ['success' => false, 'message' => 'Datos inválidos'];
+        return ['success' => false, 'message' => 'Datos inválidos del producto'];
     }
     
-    $cantidadActual = isset($_SESSION['carrito'][$id]) ? $_SESSION['carrito'][$id]['cantidad'] : 0;
-    if (($cantidadActual + $cantidad) > $stock) {
-        return ['success' => false, 'message' => 'Stock insuficiente'];
+    // Validar que el stock sea válido (mayor a 0)
+    // Esto previene errores si la base de datos envía un valor NULL o 0
+    if ($stock === null || (int)$stock <= 0) {
+        return ['success' => false, 'message' => 'El producto no tiene stock disponible'];
     }
     
+    // Calcular cantidad actual en el carrito
+    $cantidadActual = isset($_SESSION['carrito'][$id]) ? (int)$_SESSION['carrito'][$id]['cantidad'] : 0;
+    
+    // Validar que no se exceda el stock
+    if (($cantidadActual + $cantidad) > (int)$stock) {
+        return ['success' => false, 'message' => "Stock insuficiente. Solo quedan {$stock} unidades disponibles."];
+    }
+    
+    // Si el producto ya existe en el carrito, actualizamos la cantidad
     if (isset($_SESSION['carrito'][$id])) {
         $_SESSION['carrito'][$id]['cantidad'] += $cantidad;
-        $mensaje = "Cantidad actualizada de {$nombre}";
+        $mensaje = "Se actualizó la cantidad de '{$nombre}' en el carrito";
     } else {
+        // Si no existe, lo agregamos como nuevo
         $_SESSION['carrito'][$id] = [
             'id' => (int)$id,
             'nombre' => htmlspecialchars($nombre, ENT_QUOTES, 'UTF-8'),
             'precio' => (float)$precio,
-            'cantidad' => (int)$cantidad
+            'cantidad' => (int)$cantidad,
+            'imagen' => $imagen
         ];
-        $mensaje = "{$nombre} agregado al carrito";
+        $mensaje = "'{$nombre}' agregado al carrito exitosamente";
     }
     
     actualizarTotalCarrito();

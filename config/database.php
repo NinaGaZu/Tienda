@@ -85,7 +85,6 @@ class Database {
         }
 
         $stmt->execute();
-        return $stmt;
         $result = $stmt->get_result(); 
         return $result ?: $stmt; 
     }

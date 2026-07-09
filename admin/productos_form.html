@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Productos - Tienda</title>
+    <link rel="stylesheet" href="../styles_admin.css">
+    <script>
+    /**
+     * Validaciones JavaScript del formulario
+     * Basado en: IACC - S6_NOTAS_PROFUNDIZACION_PROHT2305_DES.pdf
+     */
+    function validarFormularioProducto() {
+        let nombre = document.getElementById('nombre').value.trim();
+        let descripcion = document.getElementById('descripcion').value.trim();
+        let precio = document.getElementById('precio').value;
+        let stock = document.getElementById('stock').value;
+        let categoria = document.getElementById('categoria').value.trim();
+        let imagen = document.getElementById('imagen').value.trim();
+
+        // Validar nombre
+        if (nombre === '' || nombre.length < 3) {
+            alert('El nombre del producto debe tener al menos 3 caracteres');
+            document.getElementById('nombre').focus();
+            return false;
+        }
+
+        // Validar descripción
+        if (descripcion === '') {
+            alert('La descripción es obligatoria');
+            document.getElementById('descripcion').focus();
+            return false;
+        }
+
+        // Validar precio
+        if (precio === '' || isNaN(precio) || parseFloat(precio) <= 0) {
+            alert('El precio debe ser un número mayor a 0');
+            document.getElementById('precio').focus();
+            return false;
+        }
+
+        // Validar stock
+        if (stock === '' || isNaN(stock) || parseInt(stock) < 0) {
+            alert('El stock debe ser un número entero no negativo');
+            document.getElementById('stock').focus();
+            return false;
+        }
+
+        // Validar categoría
+        if (categoria === '') {
+            alert('La categoría es obligatoria');
+            document.getElementById('categoria').focus();
+            return false;
+        }
+
+        // Validar URL de imagen (opcional pero recomendado)
+        if (imagen !== '' && !isValidURL(imagen)) {
+            alert('La URL de la imagen no es válida');
+            document.getElementById('imagen').focus();
+            return false;
+        }
+
+        return true;
+    }
+
+    // Función auxiliar para validar URL
+    function isValidURL(string) {
+        try {
+            new URL(string);
+            return true;
+        } catch (_) {
+            return false;
+        }
+    }
+
+    // Validación en tiempo real del precio
+    document.addEventListener('DOMContentLoaded', function() {
+        let precioInput = document.getElementById('precio');
+        precioInput.addEventListener('input', function() {
+            let valor = parseFloat(this.value);
+            if (isNaN(valor) || valor <= 0) {
+                this.setCustomValidity('Ingrese un precio válido mayor a 0');
+            } else {
+                this.setCustomValidity('');
+            }
+        });
+    });
+    </script>
+</head>
+<body>
+    <?php include '../includes/header.php'; ?>
+
+    <div class="container">
+        <h2> Registro de Productos</h2>
+        
+        <form action="../admin/procesar_producto.php" 
+              method="post" 
+              onsubmit="return validarFormularioProducto()"
+              class="formulario">
+            
+            <div class="form-group">
+                <label for="nombre">Nombre del Producto: *</label>
+                <input type="text" 
+                       id="nombre" 
+                       name="nombre" 
+                       required 
+                       minlength="3"
+                       maxlength="100"
+                       placeholder="Ej: Laptop Dell Inspiron">
+            </div>
+
+            <div class="form-group">
+                <label for="descripcion">Descripción: *</label>
+                <textarea id="descripcion" 
+                          name="descripcion" 
+                          required 
+                          rows="4"
+                          placeholder="Describa las características del producto"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="precio">Precio: $ *</label>
+                <input type="number" 
+                       id="precio" 
+                       name="precio" 
+                       required 
+                       min="0.01"
+                       step="0.01"
+                       placeholder="0.00">
+            </div>
+
+            <div class="form-group">
+                <label for="stock">Stock: *</label>
+                <input type="number" 
+                       id="stock" 
+                       name="stock" 
+                       required 
+                       min="0"
+                       placeholder="0">
+            </div>
+
+            <div class="form-group">
+                <label for="categoria">Categoría: *</label>
+                <select id="categoria" name="categoria" required>
+                    <option value="">Seleccione una categoría</option>
+                    <option value="Tecnología">Tecnología</option>
+                    <option value="Oficina">Oficina</option>
+                    <option value="Hogar">Hogar</option>
+                    <option value="Deportes">Deportes</option>
+                    <option value="Otros">Otros</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="imagen">URL de Imagen:</label>
+                <input type="url" 
+                       id="imagen" 
+                       name="imagen" 
+                       placeholder="https://ejemplo.com/imagen.jpg">
+                <small>Deje vacío para usar imagen por defecto</small>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" name="accion" value="guardar" class="btn btn-primary">
+                    💾 Guardar Producto
+                </button>
+                <button type="reset" class="btn btn-secondary">
+                     Limpiar Formulario
+                </button>
+                <a href="listar_productos.php" class="btn btn-info">
+                     Ver Productos
+                </a>
+            </div>
+        </form>
+    </div>
+
+    <?php include '../includes/footer.php'; ?>
+</body>
+</html>
