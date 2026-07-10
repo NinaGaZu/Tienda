@@ -11,7 +11,6 @@ require_once 'config/database.php';
 
 // Verificar que haya productos en el carrito
 if (carritoVacio()) {
-    require_once 'includes/header.php';
     setNotification("Tu carrito está vacío. Agrega productos antes de continuar.", "error");
     header("Location: carrito.php");
     exit;

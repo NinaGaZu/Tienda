@@ -97,16 +97,19 @@ $metodo_pago_texto = $metodos_pago[$pedido['metodo_pago']] ?? $pedido['metodo_pa
 
         <!-- Productos comprados -->
         <div class="products-section">
-            <h3>Productos Comprados</h3>
+            <h3>🛍️ Productos Comprados</h3>
 
             <?php foreach ($pedido['productos'] as $producto): ?>
                 <div class="order-product-item">
                     <div>
                         <span class="order-product-name">
-                            <?php echo htmlspecialchars($producto['nombre']); ?></span>
-                        <span class="order-product-qty">x<?php echo $producto['cantidad']; ?></span>
+                            <?php echo htmlspecialchars($producto['nombre']); ?>
+                        </span>
+                        <span class="order-product-qty">x<?php echo (int)$producto['cantidad']; ?></span>
                     </div>
-                    <span class="order-product-price">$<?php echo number_format($producto['precio'], 0, ',', '.'); ?></span>
+                    <span class="order-product-price">
+                        $<?php echo number_format($producto['precio'] * $producto['cantidad'], 0, ',', '.'); ?>
+                    </span>
                 </div>
             <?php endforeach; ?>
             
@@ -116,9 +119,15 @@ $metodo_pago_texto = $metodos_pago[$pedido['metodo_pago']] ?? $pedido['metodo_pa
                     <span class="label">Subtotal:</span>
                     <span class="value">$<?php echo number_format($pedido['subtotal'], 0, ',', '.'); ?></span>
                 </div>
+                <?php if ($pedido['descuento'] > 0): ?>
+                <div class="order-total-row">
+                    <span class="label">Descuento:</span>
+                    <span class="value">-$<?php echo number_format($pedido['descuento'], 0, ',', '.'); ?></span>
+                </div>
+                <?php endif; ?>
                 <div class="order-total-row">
                     <span class="label">Envío:</span>
-                    <span class="value">$<?php echo number_format($pedido['costo_envio'], 0, ',', '.'); ?></span>
+                    <span class="value">$<?php echo number_format($pedido['envio'], 0, ',', '.'); ?></span>
                 </div>
                 <div class="order-total-row final">
                     <span class="label">TOTAL:</span>
