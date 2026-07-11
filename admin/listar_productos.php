@@ -2,7 +2,8 @@
 /**
  * Listar todos los productos
  */
-require_once '../config/database.php';
+require_once __DIR__ . '/../config/sesion.php';
+require_once __DIR__ . '/../config/database.php';
 
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
@@ -12,7 +13,7 @@ $db = new Database();
 $conn = $db->getConnection();
 
 // Consulta simple SELECT
-$sql = "SELECT * FROM PRODUCTO ORDER BY nombre ASC";
+$sql = "SELECT * FROM PRODUCTO ORDER BY id_producto ASC";
 $resultado = $conn->query($sql);
 ?>
 
@@ -22,6 +23,7 @@ $resultado = $conn->query($sql);
     <meta charset="UTF-8">
     <title>Listado de Productos</title>
     <link rel="stylesheet" href="../styles_admin.css">
+    <link rel="stylesheet" href="../styles.css">
 </head>
 <body>
     <?php include '../includes/header.php'; ?>

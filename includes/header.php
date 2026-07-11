@@ -25,6 +25,8 @@ $notification = $_SESSION['notification'] ?? null;
 unset($_SESSION['notification']);
 
 $cantidadCarrito = obtenerCantidadItems() ?? 0;
+
+$basePath = '../';
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -43,7 +45,7 @@ $cantidadCarrito = obtenerCantidadItems() ?? 0;
             </div>
             <nav class="main-nav">
                 <ul>
-                    <li><a href="index.php">Inicio</a></li>
+                    <li><a href="<?php echo $basePath; ?>index.php">Inicio</a></li>
                     <li><a href="index.php#productos">Productos</a></li>
                     <li>
                         <a href="carrito.php" class="cart-link">

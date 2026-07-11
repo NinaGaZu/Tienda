@@ -8,7 +8,8 @@
  * - HAVING para filtrar grupos
  * - Función de agregación COUNT()
  */
-require_once '../config/database.php';
+require_once __DIR__ . '/../config/sesion.php';
+require_once __DIR__ . '/../config/database.php';
 
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
@@ -53,6 +54,7 @@ $stats = $conn->query($sql_stats)->fetch_assoc();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Consulta Avanzada - Clientes Frecuentes</title>
     <link rel="stylesheet" href="../styles_admin.css">
+    <link rel="stylesheet" href="../styles.css">
     <style>
         .stats-container {
             display: grid;
