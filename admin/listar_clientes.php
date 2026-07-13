@@ -1,7 +1,6 @@
 <?php
 /**
  * Lista todos los clientes registrados en la tabla CLIENTE
- * IACC - Programación Web II - Semana 6
  */
 
 require_once __DIR__ . '/../config/sesion.php';

@@ -1,7 +1,6 @@
 <?php
 /**
  * Listar todas las compras registradas en la tabla COMPRA
- * IACC - Programación Web II - Semana 6
  */
 
 require_once __DIR__ . '/../config/sesion.php';
@@ -10,9 +9,18 @@ require_once __DIR__ . '/../config/database.php';
 $db = new Database();
 $conexion = $db->getConnection();
 
-// Consulta simple: traer todas las compras tal como pide el punto 3 del enunciado
-$sql = "SELECT * FROM compra ORDER BY id_compra ASC";
+
+// Consulta con INNER JOIN para obtener nombres en lugar de IDs
+$sql = "SELECT co.id_compra, cl.nombre AS nombre_cliente, p.nombre AS nombre_producto, 
+               co.cantidad, co.total, co.fecha_compra, co.metodo_pago
+        FROM compra co
+        INNER JOIN cliente cl ON co.id_cliente = cl.id_cliente
+        INNER JOIN producto p ON co.id_producto = p.id_producto
+        ORDER BY co.fecha_compra DESC";
+
 $resultado = $conexion->query($sql);
+$compras = $resultado ? $resultado->fetch_all(MYSQLI_ASSOC) : [];
+?>
 
 if (!$resultado) {
     die("Error en la consulta: " . $conexion->error);
@@ -59,8 +67,8 @@ $compras = $resultado->fetch_all(MYSQLI_ASSOC);
                     <?php foreach ($compras as $compra): ?>
                         <tr>
                             <td><?php echo (int)$compra['id_compra']; ?></td>
-                            <td><?php echo (int)$compra['id_cliente']; ?></td>
-                            <td><?php echo (int)$compra['id_producto']; ?></td>
+                            <td><?php echo htmlspecialchars($compra['nombre_cliente']); ?></td>
+                            <td><?php echo htmlspecialchars($compra['nombre_producto']); ?></td>
                             <td><?php echo (int)$compra['cantidad']; ?></td>
                             <td>$<?php echo number_format($compra['total'], 0, ',', '.'); ?></td>
                             <td><?php echo date('d/m/Y H:i', strtotime($compra['fecha_compra'])); ?></td>

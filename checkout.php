@@ -44,10 +44,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $error = "Todos los campos son obligatorios";
         } else {
 
-            // ------------------------------------------------------------
-            // INTEGRACIÓN MYSQL - Semana 6 (Opción B: telefono + metodo_pago persistidos)
-            // ------------------------------------------------------------
-
             $direccionCompleta = $direccion . ", " . $ciudad;
 
             // 1. Buscar si el cliente ya existe por email; si no, crearlo
@@ -98,10 +94,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $stmtCompra->execute();
             }
             $stmtCompra->close();
-
-            // ------------------------------------------------------------
-            // Fin integración MySQL
-            // ------------------------------------------------------------
 
             // Guardar información del pedido en sesión (para mostrar en confirmacion.php)
             $_SESSION['pedido'] = [

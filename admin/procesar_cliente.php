@@ -1,7 +1,6 @@
 <?php
 /**
  * Procesa el formulario de registro de clientes
- * IACC - Programación Web II - Semana 6
  */
 
 require_once __DIR__ . '/../config/sesion.php';
